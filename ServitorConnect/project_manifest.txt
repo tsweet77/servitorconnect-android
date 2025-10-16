@@ -1,0 +1,1299 @@
+--- FILE: .gitignore ---
+[Other Non-Code File - Path Only]
+--- END FILE ---
+
+--- FILE: build.gradle.kts ---
+--- CONTENT ---
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+plugins {
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.compose) apply false
+}
+--- END CONTENT ---
+--- END FILE ---
+
+--- FILE: create_manifest.py ---
+[Other Non-Code File - Path Only]
+--- END FILE ---
+
+--- FILE: gradle.properties ---
+--- CONTENT ---
+# Project-wide Gradle settings.
+# IDE (e.g. Android Studio) users:
+# Gradle settings configured through the IDE *will override*
+# any settings specified in this file.
+# For more details on how to configure your build environment visit
+# http://www.gradle.org/docs/current/userguide/build_environment.html
+# Specifies the JVM arguments used for the daemon process.
+# The setting is particularly useful for tweaking memory settings.
+org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8
+# When configured, Gradle will run in incubating parallel mode.
+# This option should only be used with decoupled projects. For more details, visit
+# https://developer.android.com/r/tools/gradle-multi-project-decoupled-projects
+# org.gradle.parallel=true
+# AndroidX package structure to make it clearer which packages are bundled with the
+# Android operating system, and which are packaged with your app's APK
+# https://developer.android.com/topic/libraries/support-library/androidx-rn
+android.useAndroidX=true
+# Kotlin code style for this project: "official" or "obsolete":
+kotlin.code.style=official
+# Enables namespacing of each library's R class so that its R class includes only the
+# resources declared in the library itself and none from the library's dependencies,
+# thereby reducing the size of the R class for that library
+android.nonTransitiveRClass=true
+--- END CONTENT ---
+--- END FILE ---
+
+--- FILE: gradlew ---
+[Other Non-Code File - Path Only]
+--- END FILE ---
+
+--- FILE: gradlew.bat ---
+[Resource File - Path Only]
+--- END FILE ---
+
+--- FILE: settings.gradle.kts ---
+--- CONTENT ---
+pluginManagement {
+    repositories {
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = "ServitorConnect"
+include(":app")
+ 
+--- END CONTENT ---
+--- END FILE ---
+
+--- FILE: .kotlin/errors/errors-1760599444517.log ---
+[Other Non-Code File - Path Only]
+--- END FILE ---
+
+--- FILE: app/.gitignore ---
+[Other Non-Code File - Path Only]
+--- END FILE ---
+
+--- FILE: app/build.gradle.kts ---
+--- CONTENT ---
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+}
+
+android {
+    namespace = "com.anthroteacher.servitorconnect"
+    compileSdk {
+        version = release(36)
+    }
+
+    defaultConfig {
+        applicationId = "com.anthroteacher.servitorconnect"
+        minSdk = 26
+        targetSdk = 36
+        versionCode = 1
+        versionName = "1.0"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+    buildFeatures {
+        compose = true
+    }
+}
+
+dependencies {
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.compose.material3)
+
+    // DataStore (from your version catalog)
+    implementation(libs.androidx.datastore.preferences)
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
+}
+
+--- END CONTENT ---
+--- END FILE ---
+
+--- FILE: app/proguard-rules.pro ---
+--- CONTENT ---
+# Add project specific ProGuard rules here.
+# You can control the set of applied configuration files using the
+# proguardFiles setting in build.gradle.
+#
+# For more details, see
+#   http://developer.android.com/guide/developing/tools/proguard.html
+
+# If your project uses WebView with JS, uncomment the following
+# and specify the fully qualified class name to the JavaScript interface
+# class:
+#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+#   public *;
+#}
+
+# Uncomment this to preserve the line number information for
+# debugging stack traces.
+#-keepattributes SourceFile,LineNumberTable
+
+# If you keep the line number information, uncomment this to
+# hide the original source file name.
+#-renamesourcefileattribute SourceFile
+--- END CONTENT ---
+--- END FILE ---
+
+--- FILE: app/src/androidTest/java/com/example/myapplication/ExampleInstrumentedTest.kt ---
+--- CONTENT ---
+package com.anthroteacher.servitorconnect
+
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.ext.junit.runners.AndroidJUnit4
+
+import org.junit.Test
+import org.junit.runner.RunWith
+
+import org.junit.Assert.*
+
+/**
+ * Instrumented test, which will execute on an Android device.
+ *
+ * See [testing documentation](http://d.android.com/tools/testing).
+ */
+@RunWith(AndroidJUnit4::class)
+class ExampleInstrumentedTest {
+    @Test
+    fun useAppContext() {
+        // Context of the app under test.
+        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        assertEquals("com.anthroteacher.servitorconnect", appContext.packageName)
+    }
+}
+--- END CONTENT ---
+--- END FILE ---
+
+--- FILE: app/src/main/AndroidManifest.xml ---
+--- CONTENT ---
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Post notifications for Android 13+ -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" tools:targetApi="33" />
+    <!-- Foreground service declaration for Android 14+ -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" tools:targetApi="34" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MyApplication">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.MyApplication">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".service.ServitorService"
+            android:foregroundServiceType="dataSync"
+            android:exported="false" />
+    </application>
+
+</manifest>
+
+--- END CONTENT ---
+--- END FILE ---
+
+--- FILE: app/src/main/ic_launcher-playstore.png ---
+[Resource File - Path Only]
+--- END FILE ---
+
+--- FILE: app/src/main/java/com/anthroteacher/servitorconnect/MainActivity.kt ---
+--- CONTENT ---
+package com.anthroteacher.servitorconnect
+
+import android.Manifest
+import android.net.Uri
+import android.os.Build
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
+import com.anthroteacher.servitorconnect.data.Frequency
+import com.anthroteacher.servitorconnect.data.SavedSettings
+import com.anthroteacher.servitorconnect.data.readSettings
+import com.anthroteacher.servitorconnect.data.saveSettings
+import com.anthroteacher.servitorconnect.service.ServitorService
+import com.anthroteacher.servitorconnect.ui.theme.MyApplicationTheme
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.InputStream
+import java.math.BigInteger
+import java.security.MessageDigest
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+
+        setContent {
+            val context = LocalContext.current
+            val scope = rememberCoroutineScope()
+
+            var loaded by remember { mutableStateOf(false) }
+            var intention by rememberSaveable { mutableStateOf("") }
+            var burstCountText by rememberSaveable { mutableStateOf("888888") }
+            var durationText by rememberSaveable { mutableStateOf("86400") }
+            var frequency by rememberSaveable { mutableStateOf(Frequency.Max) }
+            var forceDark by rememberSaveable { mutableStateOf(false) }
+
+            val status by ServitorService.status.collectAsState(ServitorService.Companion.Status())
+
+            LaunchedEffect(Unit) {
+                readSettings(context).collectLatest { s ->
+                    if (!loaded) {
+                        intention = s.intention
+                        burstCountText = s.burstCount.coerceAtLeast(1).toString()
+                        durationText = s.durationSec.coerceIn(1, 86_400).toString()
+                        frequency = s.frequency
+                        forceDark = s.forceDark
+                        loaded = true
+                    }
+                }
+            }
+
+            val notifPermLauncher = rememberLauncherForActivityResult(
+                ActivityResultContracts.RequestPermission()
+            ) { }
+            LaunchedEffect(Unit) {
+                if (Build.VERSION.SDK_INT >= 33) {
+                    notifPermLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                }
+            }
+
+            val openDocLauncher = rememberLauncherForActivityResult(
+                ActivityResultContracts.OpenDocument()
+            ) { uri: Uri? ->
+                if (uri != null) {
+                    scope.launch {
+                        val hash = contentSha512(contentResolver.openInputStream(uri))
+                        if (hash.isNotBlank()) {
+                            intention = if (intention.isBlank()) hash else "$intention\n$hash"
+                        }
+                    }
+                }
+            }
+
+            MyApplicationTheme(forceDark = forceDark) {
+                Surface(Modifier.fillMaxSize()) {
+                    val scroll = rememberScrollState()
+
+                    Column(
+                        Modifier
+                            .fillMaxSize()
+                            .verticalScroll(scroll)
+                            .padding(16.dp)
+                            .background(MaterialTheme.colorScheme.background),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        Text("ServitorConnect", style = MaterialTheme.typography.headlineMedium)
+                        Text(
+                            if (status.running) "Broadcasting…" else "Ready",
+                            color = if (status.running) MaterialTheme.colorScheme.primary
+                            else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Checkbox(
+                                checked = forceDark,
+                                onCheckedChange = { forceDark = it },
+                                enabled = !status.running
+                            )
+                            Spacer(Modifier.width(8.dp))
+                            Text("Dark Mode")
+                        }
+
+                        OutlinedTextField(
+                            value = intention,
+                            onValueChange = { intention = it },
+                            label = { Text("Intention") },
+                            minLines = 5,
+                            maxLines = 5,
+                            modifier = Modifier.fillMaxWidth(),
+                            enabled = !status.running
+                        )
+
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            verticalAlignment = Alignment.Top,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            OutlinedTextField(
+                                value = burstCountText,
+                                onValueChange = { burstCountText = it.filter(Char::isDigit).take(9) },
+                                label = { Text("Burst Count") },
+                                singleLine = true,
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.Number, imeAction = ImeAction.Next
+                                ),
+                                modifier = Modifier.weight(1f),
+                                enabled = !status.running,
+                                supportingText = { Text("positive only", maxLines = 1, overflow = TextOverflow.Ellipsis) }
+                            )
+                            FrequencySelect(
+                                value = frequency,
+                                onChange = { frequency = it },
+                                enabled = !status.running,
+                                modifier = Modifier.weight(1f)
+                            )
+                        }
+
+                        OutlinedTextField(
+                            value = durationText,
+                            onValueChange = { durationText = it.filter(Char::isDigit).take(6) },
+                            label = { Text("Duration (seconds)") },
+                            singleLine = true,
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                            enabled = !status.running,
+                            supportingText = { Text("1 to 86400") },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        Row(horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically) {
+                            OutlinedButton(
+                                onClick = { openDocLauncher.launch(arrayOf("*/*")) },
+                                enabled = !status.running
+                            ) { Text("Load File") }
+
+                            Spacer(Modifier.weight(1f))
+
+                            Metrics(status.iterations, status.elapsedSec, status.itersPerSec, frequency)
+                        }
+
+                        val valid = validateInputs(burstCountText, durationText)
+                        Button(
+                            onClick = {
+                                if (!status.running) {
+                                    val settings = SavedSettings(
+                                        intention = intention,
+                                        burstCount = sanitizedBurst(burstCountText),
+                                        frequency = frequency,
+                                        durationSec = sanitizedDuration(durationText),
+                                        forceDark = forceDark
+                                    )
+                                    val cfg = ServitorService.Config(
+                                        intention = settings.intention,
+                                        burstCount = settings.burstCount,
+                                        frequency = settings.frequency,
+                                        durationSec = settings.durationSec
+                                    )
+                                    val i = ServitorService.buildIntent(context, start = true, cfg = cfg)
+                                    ContextCompat.startForegroundService(context, i)
+                                    scope.launch { saveSettings(context, settings) }
+                                } else {
+                                    val i = ServitorService.buildIntent(context, start = false)
+                                    ContextCompat.startForegroundService(context, i)
+                                }
+                            },
+                            enabled = valid,
+                            modifier = Modifier.fillMaxWidth()
+                        ) { Text(if (status.running) "Stop" else "Start") }
+
+                        if (!valid) {
+                            Text(
+                                "Enter Burst Count ≥ 1 and Duration between 1 and 86400.",
+                                color = MaterialTheme.colorScheme.error
+                            )
+                        }
+
+                        Spacer(Modifier.height(8.dp))
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun FrequencySelect(
+    value: Frequency,
+    onChange: (Frequency) -> Unit,
+    enabled: Boolean,
+    modifier: Modifier = Modifier
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val label = when (value) {
+        Frequency.Max -> "Max"
+        Frequency.Hz3 -> "3 Hz"
+        Frequency.Hz8 -> "8 Hz"
+        Frequency.Hourly -> "Hourly"
+    }
+    Box(modifier) {
+        OutlinedButton(
+            onClick = { expanded = true },
+            enabled = enabled,
+            modifier = Modifier.fillMaxWidth()
+        ) { Text("Frequency: $label") }
+        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+            DropdownMenuItem(text = { Text("Max") }, onClick = { onChange(Frequency.Max); expanded = false })
+            DropdownMenuItem(text = { Text("3 Hz") }, onClick = { onChange(Frequency.Hz3); expanded = false })
+            DropdownMenuItem(text = { Text("8 Hz") }, onClick = { onChange(Frequency.Hz8); expanded = false })
+            DropdownMenuItem(text = { Text("Hourly") }, onClick = { onChange(Frequency.Hourly); expanded = false })
+        }
+    }
+}
+
+@Composable
+private fun Metrics(iterations: Long, elapsedSec: Int, itersPerSec: Long, freq: Frequency) {
+    Column(horizontalAlignment = Alignment.End, modifier = Modifier.fillMaxWidth()) {
+        Text("Iterations: $iterations")
+        Text("Timer: ${formatHms(elapsedSec)}")
+        if (freq == Frequency.Max) Text("Iter/s: $itersPerSec")
+    }
+}
+
+private fun validateInputs(burstText: String, durationText: String): Boolean {
+    val b = runCatching { burstText.toLong() }.getOrNull() ?: return false
+    val d = runCatching { durationText.toInt() }.getOrNull() ?: return false
+    return b >= 1 && d in 1..86_400
+}
+
+private fun sanitizedBurst(burstText: String): Int {
+    val v = runCatching { burstText.toLong() }.getOrDefault(888_888L)
+    return v.coerceIn(1L, Int.MAX_VALUE.toLong()).toInt()
+}
+
+private fun sanitizedDuration(durationText: String): Int {
+    val v = runCatching { durationText.toInt() }.getOrDefault(86_400)
+    return v.coerceIn(1, 86_400)
+}
+
+private fun formatHms(totalSec: Int): String {
+    val s = totalSec.coerceAtLeast(0)
+    val h = s / 3600
+    val m = (s % 3600) / 60
+    val sec = s % 60
+    return "%02d:%02d:%02d".format(h, m, sec)
+}
+
+private suspend fun contentSha512(input: InputStream?): String {
+    input ?: return ""
+    return withContext(Dispatchers.IO) {
+        input.use { ins ->
+            val md = MessageDigest.getInstance("SHA-512")
+            val buf = ByteArray(8192)
+            var read: Int
+            while (ins.read(buf).also { read = it } != -1) {
+                md.update(buf, 0, read)
+            }
+            val bytes = md.digest()
+            val bi = BigInteger(1, bytes)
+            "SHA512:" + bi.toString(16).padStart(128, '0')
+        }
+    }
+}
+
+--- END CONTENT ---
+--- END FILE ---
+
+--- FILE: app/src/main/java/com/anthroteacher/servitorconnect/data/Prefs.kt ---
+--- CONTENT ---
+package com.anthroteacher.servitorconnect.data
+
+import android.content.Context
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
+import kotlinx.coroutines.flow.map
+
+private const val DS_NAME = "servitor_prefs"
+val Context.dataStore by preferencesDataStore(DS_NAME)
+
+object Keys {
+    val INTENTION = stringPreferencesKey("intention")
+    val BURST_COUNT = intPreferencesKey("burst_count")
+    val FREQ = stringPreferencesKey("frequency")
+    val DURATION_SEC = intPreferencesKey("duration_sec")
+    val FORCE_DARK = booleanPreferencesKey("force_dark")
+}
+
+enum class Frequency { Max, Hz3, Hz8, Hourly }
+
+data class SavedSettings(
+    val intention: String = "",
+    val burstCount: Int = 888_888,
+    val frequency: Frequency = Frequency.Max,
+    val durationSec: Int = 86_400,
+    val forceDark: Boolean = false
+)
+
+fun readSettings(context: Context) = context.dataStore.data.map { p ->
+    SavedSettings(
+        intention = p[Keys.INTENTION] ?: "",
+        burstCount = p[Keys.BURST_COUNT] ?: 888_888,
+        frequency = runCatching { Frequency.valueOf(p[Keys.FREQ] ?: "Max") }.getOrDefault(Frequency.Max),
+        durationSec = p[Keys.DURATION_SEC] ?: 86_400,
+        forceDark = p[Keys.FORCE_DARK] ?: false
+    )
+}
+
+suspend fun saveSettings(context: Context, s: SavedSettings) {
+    context.dataStore.edit { p ->
+        p[Keys.INTENTION] = s.intention
+        p[Keys.BURST_COUNT] = s.burstCount
+        p[Keys.FREQ] = s.frequency.name
+        p[Keys.DURATION_SEC] = s.durationSec
+        p[Keys.FORCE_DARK] = s.forceDark
+    }
+}
+
+--- END CONTENT ---
+--- END FILE ---
+
+--- FILE: app/src/main/java/com/anthroteacher/servitorconnect/service/ServitorService.kt ---
+--- CONTENT ---
+package com.anthroteacher.servitorconnect.service
+
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import android.os.Build
+import androidx.core.app.NotificationCompat
+import com.anthroteacher.servitorconnect.MainActivity
+import com.anthroteacher.servitorconnect.R
+import com.anthroteacher.servitorconnect.data.Frequency
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.yield
+import java.io.Serializable
+import kotlin.math.min
+
+class ServitorService : android.app.Service() {
+
+    companion object {
+        private const val CHANNEL_ID = "servitor_channel"
+        private const val NOTIF_ID = 1001
+
+        data class Status(
+            val running: Boolean = false,
+            val statusText: String = "Ready",
+            val iterations: Long = 0L,
+            val elapsedSec: Int = 0,
+            val itersPerSec: Long = 0L
+        )
+
+        private val _status = MutableStateFlow(Status())
+        val status = _status.asStateFlow()
+
+        fun buildIntent(ctx: Context, start: Boolean, cfg: Config? = null) =
+            Intent(ctx, ServitorService::class.java).apply {
+                action = if (start) ACTION_START else ACTION_STOP
+                if (start && cfg != null) putExtra(EXTRA_CONFIG, cfg)
+            }
+
+        const val ACTION_START = "START"
+        const val ACTION_STOP = "STOP"
+        const val EXTRA_CONFIG = "config"
+    }
+
+    data class Config(
+        val intention: String,
+        val burstCount: Int,
+        val frequency: Frequency,
+        val durationSec: Int
+    ) : Serializable
+
+    private var job: Job? = null
+
+    override fun onBind(intent: Intent?) = null
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        when (intent?.action) {
+            ACTION_START -> {
+                val cfg: Config? = if (Build.VERSION.SDK_INT >= 33) {
+                    intent.getSerializableExtra(EXTRA_CONFIG, Config::class.java)
+                } else {
+                    @Suppress("DEPRECATION")
+                    intent.getSerializableExtra(EXTRA_CONFIG) as? Config
+                }
+                if (cfg == null) return START_NOT_STICKY
+                startForegroundInternal()
+                startBroadcast(cfg)
+            }
+            ACTION_STOP -> stopBroadcast()
+        }
+        return START_STICKY
+    }
+    private fun startForegroundInternal() {
+        val nm = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val ch = NotificationChannel(
+                CHANNEL_ID,
+                getString(R.string.notif_channel_name),
+                NotificationManager.IMPORTANCE_LOW
+            ).apply { description = getString(R.string.notif_channel_desc) }
+            nm.createNotificationChannel(ch)
+        }
+        startForeground(NOTIF_ID, buildNotification("Ready"))
+    }
+
+    private fun buildNotification(text: String): Notification {
+        val pi = PendingIntent.getActivity(
+            this, 0,
+            Intent(this, MainActivity::class.java),
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        return NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setContentTitle(getString(R.string.notif_title))
+            .setContentText(text)
+            .setOngoing(true)
+            .setContentIntent(pi)
+            .build()
+    }
+
+    private fun startBroadcast(cfg: Config) {
+        if (job?.isActive == true) return
+        job = CoroutineScope(Dispatchers.Default).launch {
+            var iterations = 0L
+            val startMs = System.currentTimeMillis()
+            var lastSecMark = startMs
+            var itersAtLastSec = 0L
+
+            _status.value = _status.value.copy(running = true, statusText = "Broadcasting…")
+            updateNotification("Broadcasting…")
+
+            val endMs = startMs + cfg.durationSec * 1000L
+            val chunk = 100_000
+
+            while (isActive && System.currentTimeMillis() < endMs) {
+                // one burst (chunked)
+                var remaining = cfg.burstCount
+                while (remaining > 0 && isActive) {
+                    val step = min(chunk, remaining)
+                    repeat(step) {
+                        @Suppress("UNUSED_VARIABLE")
+                        val placeholder = cfg.intention
+                        iterations++
+                    }
+                    remaining -= step
+                    yield()
+                }
+
+                // frequency
+                when (cfg.frequency) {
+                    Frequency.Max -> {
+                        // cooperative; “fast enough” under throttling
+                        yield()
+                        // or delay(1)
+                    }
+                    Frequency.Hz3 -> delay(333L)
+                    Frequency.Hz8 -> delay(125L)
+                    Frequency.Hourly -> delay(3_600_000L)
+                }
+
+                // secondly metrics
+                val now = System.currentTimeMillis()
+                if (now - lastSecMark >= 1000L) {
+                    val elapsedSec = ((now - startMs) / 1000L).toInt()
+                    val ips = iterations - itersAtLastSec
+                    itersAtLastSec = iterations
+                    lastSecMark = now
+                    _status.value = _status.value.copy(
+                        iterations = iterations,
+                        elapsedSec = elapsedSec,
+                        itersPerSec = if (cfg.frequency == Frequency.Max) ips else 0L
+                    )
+                    updateNotification("Broadcasting…")
+                }
+            }
+
+            _status.value = _status.value.copy(running = false, statusText = "Ready")
+            updateNotification("Ready")
+            stopForeground(STOP_FOREGROUND_DETACH)
+            stopSelf()
+        }
+    }
+
+    private fun stopBroadcast() {
+        job?.cancel()
+        job = null
+        _status.value = _status.value.copy(running = false, statusText = "Ready")
+        updateNotification("Ready")
+        stopForeground(STOP_FOREGROUND_DETACH)
+        stopSelf()
+    }
+
+    private fun updateNotification(text: String) {
+        val nm = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        nm.notify(NOTIF_ID, buildNotification(text))
+    }
+}
+
+--- END CONTENT ---
+--- END FILE ---
+
+--- FILE: app/src/main/java/com/anthroteacher/servitorconnect/ui/theme/Color.kt ---
+--- CONTENT ---
+package com.anthroteacher.servitorconnect.ui.theme
+
+import androidx.compose.ui.graphics.Color
+
+val Spruce700 = Color(0xFF1C4631)
+val Spruce500 = Color(0xFF2E6B4B)
+val Spruce300 = Color(0xFF63A37F)
+val Moss100   = Color(0xFFE8F3EC)
+val Earth900  = Color(0xFF1C1B1F)
+val Sky100    = Color(0xFFE6F2F9)
+val Warn      = Color(0xFFD32F2F)
+val Ok        = Color(0xFF2E7D32)
+
+--- END CONTENT ---
+--- END FILE ---
+
+--- FILE: app/src/main/java/com/anthroteacher/servitorconnect/ui/theme/Theme.kt ---
+--- CONTENT ---
+package com.anthroteacher.servitorconnect.ui.theme
+
+import android.os.Build
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
+import androidx.compose.material3.lightColorScheme
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+
+private val DarkColorScheme = darkColorScheme(
+    primary = Spruce300,
+    onPrimary = Earth900,
+    secondary = Spruce500,
+    onSecondary = Earth900,
+    background = Earth900,
+    onBackground = Color.White,
+    surface = Spruce700,
+    onSurface = Color.White
+)
+
+private val LightColorScheme = lightColorScheme(
+    primary = Spruce700,
+    onPrimary = Color.White,
+    secondary = Spruce500,
+    onSecondary = Color.White,
+    background = Moss100,
+    onBackground = Color(0xFF0B1510),
+    surface = Color.White,
+    onSurface = Color(0xFF0B1510)
+)
+
+@Composable
+fun MyApplicationTheme(
+    forceDark: Boolean? = null,
+    dynamicColor: Boolean = true,
+    content: @Composable () -> Unit
+) {
+    val darkTheme = forceDark ?: isSystemInDarkTheme()
+    val colorScheme =
+        if (dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val context = LocalContext.current
+            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+        } else if (darkTheme) DarkColorScheme else LightColorScheme
+
+    MaterialTheme(
+        colorScheme = colorScheme,
+        typography = Typography,
+        content = content
+    )
+}
+
+--- END CONTENT ---
+--- END FILE ---
+
+--- FILE: app/src/main/java/com/anthroteacher/servitorconnect/ui/theme/Type.kt ---
+--- CONTENT ---
+package com.anthroteacher.servitorconnect.ui.theme
+
+import androidx.compose.material3.Typography
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+
+// Set of Material typography styles to start with
+val Typography = Typography(
+    bodyLarge = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.5.sp
+    )
+    /* Other default text styles to override
+    titleLarge = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Normal,
+        fontSize = 22.sp,
+        lineHeight = 28.sp,
+        letterSpacing = 0.sp
+    ),
+    labelSmall = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Medium,
+        fontSize = 11.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 0.5.sp
+    )
+    */
+)
+--- END CONTENT ---
+--- END FILE ---
+
+--- FILE: app/src/main/res/drawable/ic_launcher_background.xml ---
+--- CONTENT ---
+<?xml version="1.0" encoding="utf-8"?>
+<vector
+    android:height="108dp"
+    android:width="108dp"
+    android:viewportHeight="108"
+    android:viewportWidth="108"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#3DDC84"
+          android:pathData="M0,0h108v108h-108z"/>
+    <path android:fillColor="#00000000" android:pathData="M9,0L9,108"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M19,0L19,108"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M29,0L29,108"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M39,0L39,108"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M49,0L49,108"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M59,0L59,108"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M69,0L69,108"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M79,0L79,108"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M89,0L89,108"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M99,0L99,108"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M0,9L108,9"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M0,19L108,19"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M0,29L108,29"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M0,39L108,39"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M0,49L108,49"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M0,59L108,59"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M0,69L108,69"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M0,79L108,79"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M0,89L108,89"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M0,99L108,99"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M19,29L89,29"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M19,39L89,39"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M19,49L89,49"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M19,59L89,59"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M19,69L89,69"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M19,79L89,79"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M29,19L29,89"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M39,19L39,89"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M49,19L49,89"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M59,19L59,89"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M69,19L69,89"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+    <path android:fillColor="#00000000" android:pathData="M79,19L79,89"
+          android:strokeColor="#33FFFFFF" android:strokeWidth="0.8"/>
+</vector>
+
+--- END CONTENT ---
+--- END FILE ---
+
+--- FILE: app/src/main/res/drawable/ic_launcher_foreground.xml ---
+--- CONTENT ---
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path android:pathData="M31,63.928c0,0 6.4,-11 12.1,-13.1c7.2,-2.6 26,-1.4 26,-1.4l38.1,38.1L107,108.928l-32,-1L31,63.928z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:endX="85.84757"
+                android:endY="92.4963"
+                android:startX="42.9492"
+                android:startY="49.59793"
+                android:type="linear">
+                <item
+                    android:color="#44000000"
+                    android:offset="0.0" />
+                <item
+                    android:color="#00000000"
+                    android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillType="nonZero"
+        android:pathData="M65.3,45.828l3.8,-6.6c0.2,-0.4 0.1,-0.9 -0.3,-1.1c-0.4,-0.2 -0.9,-0.1 -1.1,0.3l-3.9,6.7c-6.3,-2.8 -13.4,-2.8 -19.7,0l-3.9,-6.7c-0.2,-0.4 -0.7,-0.5 -1.1,-0.3C38.8,38.328 38.7,38.828 38.9,39.228l3.8,6.6C36.2,49.428 31.7,56.028 31,63.928h46C76.3,56.028 71.8,49.428 65.3,45.828zM43.4,57.328c-0.8,0 -1.5,-0.5 -1.8,-1.2c-0.3,-0.7 -0.1,-1.5 0.4,-2.1c0.5,-0.5 1.4,-0.7 2.1,-0.4c0.7,0.3 1.2,1 1.2,1.8C45.3,56.528 44.5,57.328 43.4,57.328L43.4,57.328zM64.6,57.328c-0.8,0 -1.5,-0.5 -1.8,-1.2s-0.1,-1.5 0.4,-2.1c0.5,-0.5 1.4,-0.7 2.1,-0.4c0.7,0.3 1.2,1 1.2,1.8C66.5,56.528 65.6,57.328 64.6,57.328L64.6,57.328z"
+        android:strokeWidth="1"
+        android:strokeColor="#00000000" />
+</vector>
+--- END CONTENT ---
+--- END FILE ---
+
+--- FILE: app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml ---
+--- CONTENT ---
+<?xml version="1.0" encoding="utf-8"?>
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@drawable/ic_launcher_background"/>
+    <foreground android:drawable="@mipmap/ic_launcher_foreground"/>
+</adaptive-icon>
+--- END CONTENT ---
+--- END FILE ---
+
+--- FILE: app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml ---
+--- CONTENT ---
+<?xml version="1.0" encoding="utf-8"?>
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@drawable/ic_launcher_background"/>
+    <foreground android:drawable="@mipmap/ic_launcher_foreground"/>
+</adaptive-icon>
+--- END CONTENT ---
+--- END FILE ---
+
+--- FILE: app/src/main/res/mipmap-hdpi/ic_launcher.webp ---
+[Resource File - Path Only]
+--- END FILE ---
+
+--- FILE: app/src/main/res/mipmap-hdpi/ic_launcher_foreground.webp ---
+[Resource File - Path Only]
+--- END FILE ---
+
+--- FILE: app/src/main/res/mipmap-hdpi/ic_launcher_round.webp ---
+[Resource File - Path Only]
+--- END FILE ---
+
+--- FILE: app/src/main/res/mipmap-mdpi/ic_launcher.webp ---
+[Resource File - Path Only]
+--- END FILE ---
+
+--- FILE: app/src/main/res/mipmap-mdpi/ic_launcher_foreground.webp ---
+[Resource File - Path Only]
+--- END FILE ---
+
+--- FILE: app/src/main/res/mipmap-mdpi/ic_launcher_round.webp ---
+[Resource File - Path Only]
+--- END FILE ---
+
+--- FILE: app/src/main/res/mipmap-xhdpi/ic_launcher.webp ---
+[Resource File - Path Only]
+--- END FILE ---
+
+--- FILE: app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.webp ---
+[Resource File - Path Only]
+--- END FILE ---
+
+--- FILE: app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp ---
+[Resource File - Path Only]
+--- END FILE ---
+
+--- FILE: app/src/main/res/mipmap-xxhdpi/ic_launcher.webp ---
+[Resource File - Path Only]
+--- END FILE ---
+
+--- FILE: app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.webp ---
+[Resource File - Path Only]
+--- END FILE ---
+
+--- FILE: app/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp ---
+[Resource File - Path Only]
+--- END FILE ---
+
+--- FILE: app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp ---
+[Resource File - Path Only]
+--- END FILE ---
+
+--- FILE: app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.webp ---
+[Resource File - Path Only]
+--- END FILE ---
+
+--- FILE: app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp ---
+[Resource File - Path Only]
+--- END FILE ---
+
+--- FILE: app/src/main/res/values/colors.xml ---
+--- CONTENT ---
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Nature/Outdoors palette -->
+    <color name="spruce_700">#1C4631</color>
+    <color name="spruce_500">#2E6B4B</color>
+    <color name="spruce_300">#63A37F</color>
+    <color name="moss_100">#E8F3EC</color>
+    <color name="earth_900">#1C1B1F</color>
+    <color name="sky_100">#E6F2F9</color>
+    <color name="warning">#D32F2F</color>
+    <color name="ok">#2E7D32</color>
+    <color name="on_light">#0B1510</color>
+    <color name="on_dark">#FFFFFF</color>
+</resources>
+
+--- END CONTENT ---
+--- END FILE ---
+
+--- FILE: app/src/main/res/values/strings.xml ---
+--- CONTENT ---
+<resources>
+    <string name="app_name">ServitorConnect</string>
+
+    <string name="notif_channel_name">ServitorConnect</string>
+    <string name="notif_channel_desc">Foreground broadcasting status</string>
+    <string name="notif_title">ServitorConnect</string>
+    <string name="notif_text_running">Broadcasting…</string>
+    <string name="notif_text_ready">Ready</string>
+
+    <string name="action_stop">Stop</string>
+    <string name="action_open">Open</string>
+</resources>
+
+--- END CONTENT ---
+--- END FILE ---
+
+--- FILE: app/src/main/res/values/themes.xml ---
+--- CONTENT ---
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.MyApplication" parent="android:Theme.Material.Light.NoActionBar" />
+</resources>
+--- END CONTENT ---
+--- END FILE ---
+
+--- FILE: app/src/main/res/xml/backup_rules.xml ---
+--- CONTENT ---
+<?xml version="1.0" encoding="utf-8"?><!--
+   Sample backup rules file; uncomment and customize as necessary.
+   See https://developer.android.com/guide/topics/data/autobackup
+   for details.
+   Note: This file is ignored for devices older than API 31
+   See https://developer.android.com/about/versions/12/backup-restore
+-->
+<full-backup-content>
+    <!--
+   <include domain="sharedpref" path="."/>
+   <exclude domain="sharedpref" path="device.xml"/>
+-->
+</full-backup-content>
+--- END CONTENT ---
+--- END FILE ---
+
+--- FILE: app/src/main/res/xml/data_extraction_rules.xml ---
+--- CONTENT ---
+<?xml version="1.0" encoding="utf-8"?><!--
+   Sample data extraction rules file; uncomment and customize as necessary.
+   See https://developer.android.com/about/versions/12/backup-restore#xml-changes
+   for details.
+-->
+<data-extraction-rules>
+    <cloud-backup>
+        <!-- TODO: Use <include> and <exclude> to control what is backed up.
+        <include .../>
+        <exclude .../>
+        -->
+    </cloud-backup>
+    <!--
+    <device-transfer>
+        <include .../>
+        <exclude .../>
+    </device-transfer>
+    -->
+</data-extraction-rules>
+--- END CONTENT ---
+--- END FILE ---
+
+--- FILE: app/src/test/java/com/example/myapplication/ExampleUnitTest.kt ---
+--- CONTENT ---
+package com.anthroteacher.servitorconnect
+
+import org.junit.Test
+
+import org.junit.Assert.*
+
+/**
+ * Example local unit test, which will execute on the development machine (host).
+ *
+ * See [testing documentation](http://d.android.com/tools/testing).
+ */
+class ExampleUnitTest {
+    @Test
+    fun addition_isCorrect() {
+        assertEquals(4, 2 + 2)
+    }
+}
+--- END CONTENT ---
+--- END FILE ---
+
+--- FILE: gradle/libs.versions.toml ---
+--- CONTENT ---
+[versions]
+agp = "8.13.0"
+kotlin = "2.0.21"
+coreKtx = "1.17.0"
+junit = "4.13.2"
+junitVersion = "1.3.0"
+espressoCore = "3.7.0"
+lifecycleRuntimeKtx = "2.9.4"
+activityCompose = "1.11.0"
+composeBom = "2024.09.00"
+datastore = "1.1.7"
+
+[libraries]
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+
+--- END CONTENT ---
+--- END FILE ---
+
+--- FILE: gradle/wrapper/gradle-wrapper.properties ---
+--- CONTENT ---
+#Thu Oct 16 05:41:05 UTC 2025
+distributionBase=GRADLE_USER_HOME
+distributionPath=wrapper/dists
+distributionUrl=https\://services.gradle.org/distributions/gradle-8.13-bin.zip
+networkTimeout=10000
+validateDistributionUrl=true
+zipStoreBase=GRADLE_USER_HOME
+zipStorePath=wrapper/dists
+
+--- END CONTENT ---
+--- END FILE ---
+

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Nature/Outdoors palette -->
+    <color name="spruce_700">#1C4631</color>
+    <color name="spruce_500">#2E6B4B</color>
+    <color name="spruce_300">#63A37F</color>
+    <color name="moss_100">#E8F3EC</color>
+    <color name="earth_900">#1C1B1F</color>
+    <color name="sky_100">#E6F2F9</color>
+    <color name="warning">#D32F2F</color>
+    <color name="ok">#2E7D32</color>
+    <color name="on_light">#0B1510</color>
+    <color name="on_dark">#FFFFFF</color>
+</resources>

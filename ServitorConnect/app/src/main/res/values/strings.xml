@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">ServitorConnect</string>
+
+    <string name="notif_channel_name">ServitorConnect</string>
+    <string name="notif_channel_desc">Foreground broadcasting status</string>
+    <string name="notif_title">ServitorConnect</string>
+    <string name="notif_text_running">Broadcasting…</string>
+    <string name="notif_text_ready">Ready</string>
+
+    <string name="action_stop">Stop</string>
+    <string name="action_open">Open</string>
+</resources>
