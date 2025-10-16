@@ -145,7 +145,24 @@ class ServitorService : android.app.Service() {
                     }
                     Frequency.Hz3 -> delay(333L)
                     Frequency.Hz8 -> delay(125L)
-                    Frequency.Hourly -> delay(3_600_000L)
+                    Frequency.Min5 -> {
+                        // Break 5-minute delay into 1-second updates
+                        val targetDelayMs = 300_000L
+                        val startDelayTime = System.currentTimeMillis()
+                        while (System.currentTimeMillis() - startDelayTime < targetDelayMs && isActive) {
+                            delay(1000L)  // Wait 1 second
+                            
+                            // Update metrics each second
+                            val now = System.currentTimeMillis()
+                            val elapsedSec = ((now - startMs) / 1000L).toInt()
+                            _status.value = _status.value.copy(
+                                iterations = iterations,
+                                elapsedSec = elapsedSec,
+                                itersPerSec = 0L
+                            )
+                            updateNotification("Broadcasting…")
+                        }
+                    }
                 }
 
                 // secondly metrics

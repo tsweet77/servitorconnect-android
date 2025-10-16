@@ -19,12 +19,12 @@ object Keys {
     val FORCE_DARK = booleanPreferencesKey("force_dark")
 }
 
-enum class Frequency { Max, Hz3, Hz8, Hourly }
+enum class Frequency { Max, Hz3, Hz8, Min5 }
 
 data class SavedSettings(
     val intention: String = "",
     val burstCount: Int = 888_888,
-    val frequency: Frequency = Frequency.Hourly,
+    val frequency: Frequency = Frequency.Min5,
     val durationSec: Int = 86_400,
     val forceDark: Boolean = false
 )

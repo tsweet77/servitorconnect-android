@@ -1,6 +1,7 @@
 package com.anthroteacher.servitorconnect
 
 import android.Manifest
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -10,13 +11,37 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -38,8 +63,6 @@ import kotlinx.coroutines.withContext
 import java.io.InputStream
 import java.math.BigInteger
 import java.security.MessageDigest
-import android.content.pm.PackageManager
-
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +77,7 @@ class MainActivity : ComponentActivity() {
             var intention by rememberSaveable { mutableStateOf("") }
             var burstCountText by rememberSaveable { mutableStateOf("888888") }
             var durationText by rememberSaveable { mutableStateOf("86400") }
-            var frequency by rememberSaveable { mutableStateOf(Frequency.Hourly) }
+            var frequency by rememberSaveable { mutableStateOf(Frequency.Min5) }
             var forceDark by rememberSaveable { mutableStateOf(false) }
 
             val status by ServitorService.status.collectAsState(ServitorService.Companion.Status())
@@ -258,7 +281,7 @@ private fun FrequencySelect(
         Frequency.Max -> "Max"
         Frequency.Hz3 -> "3 Hz"
         Frequency.Hz8 -> "8 Hz"
-        Frequency.Hourly -> "Hourly"
+        Frequency.Min5 -> "5 Min"
     }
     Box(modifier) {
         OutlinedButton(
@@ -270,7 +293,7 @@ private fun FrequencySelect(
             DropdownMenuItem(text = { Text("Max") }, onClick = { onChange(Frequency.Max); expanded = false })
             DropdownMenuItem(text = { Text("3 Hz") }, onClick = { onChange(Frequency.Hz3); expanded = false })
             DropdownMenuItem(text = { Text("8 Hz") }, onClick = { onChange(Frequency.Hz8); expanded = false })
-            DropdownMenuItem(text = { Text("Hourly") }, onClick = { onChange(Frequency.Hourly); expanded = false })
+            DropdownMenuItem(text = { Text("5 Min") }, onClick = { onChange(Frequency.Min5); expanded = false })
         }
     }
 }

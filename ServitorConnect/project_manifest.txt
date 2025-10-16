@@ -1,3 +1,37 @@
+--- START OF DIRECTIONS FOR AI ---
+
+Hello AI.
+
+This file is a complete manifest of a modern Android application project. Your task is to act as an expert Android developer, and find why it crashes when the APK is run after being installed and provide the definitive solution to get the APK to fully run.
+
+**Project Goal:**
+A high-performance "Intention Repeater" app built with Kotlin, Jetpack Compose, MVVM architecture, and a Room database. It uses a Foreground Service to run reliably in the background.
+
+**Current Status:**
+The project is 99.9% complete. We have successfully configured the build environment, Gradle scripts, signing keys, and resources. However, we are stuck on a persistent crash when running the app after installing the APK.
+
+**Your Task:**
+1. Update my source code for error logging with timestamps to a intention_repeater_logfile.txt in an easy to get to place, and let me know where that will be stored on the phone.
+2. It should run on a variety of Android phones. I want the min API while meeting Google's requirement and allowing full functionality.
+3. Go through all the code and optimize for best practices, efficiency, UI/UX, memory management so it doesn't crash due to memory errors.
+4. Thoroughly review all the source code files provided in this manifest.
+5. Provide the final, corrected version of ANY file(s) that need to be changed into master_patch.txt.
+6. Provide the exact, final sequence of commands to run from the command line to achieve a successful build of both the release APK and the AAB.
+7. Put all changes into a master_patch.txt
+8. Create a Python script master_patcher.py that applies the patch to the subfolders from the current folder.
+9. Do away with Intention Multiplying (uses huge RAM) and replace with a burst option for the non-maximum speeds. This will fix memory errors.
+    a. Burst option is an inner loop between each regular iteration. Default to 888888 times assigning the intention they gave to the intention variable.
+    b. The burst number will be added to the iterations and the frequency for each iteration.
+10. Program will now be v3.0 and build "70".
+
+All that 1-10 code changes will go into two files you will produce:
+1. master_patch.txt - Has all the changes made to files. Patch details.
+2. master_patcher.py - The patcher that applies master_patch.txt to the project files.
+
+Assume the build environment (JDK, Android SDK) is correctly set up. The problem lies within the code provided below.
+
+--- END OF DIRECTIONS FOR AI ---
+
 --- FILE: .gitignore ---
 [Other Non-Code File - Path Only]
 --- END FILE ---
@@ -186,6 +220,22 @@ dependencies {
 --- END CONTENT ---
 --- END FILE ---
 
+--- FILE: app/release/app-release.apk ---
+[Other Non-Code File - Path Only]
+--- END FILE ---
+
+--- FILE: app/release/output-metadata.json ---
+[Other Non-Code File - Path Only]
+--- END FILE ---
+
+--- FILE: app/release/baselineProfiles/0/app-release.dm ---
+[Other Non-Code File - Path Only]
+--- END FILE ---
+
+--- FILE: app/release/baselineProfiles/1/app-release.dm ---
+[Other Non-Code File - Path Only]
+--- END FILE ---
+
 --- FILE: app/src/androidTest/java/com/example/myapplication/ExampleInstrumentedTest.kt ---
 --- CONTENT ---
 package com.anthroteacher.servitorconnect
@@ -221,11 +271,22 @@ class ExampleInstrumentedTest {
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Base permission for any FGS (Android 9+) -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <!-- Post notifications for Android 13+ -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" tools:targetApi="33" />
     <!-- Foreground service declaration for Android 14+ -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" tools:targetApi="34" />
 
+    <!-- Type permission for your chosen FGS type (Android 14+) -->
+    <uses-permission
+        android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC"
+        tools:targetApi="34" />
+
+    <!-- Also request notifications (Android 13+) -->
+    <uses-permission
+        android:name="android.permission.POST_NOTIFICATIONS"
+        tools:targetApi="33" />
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -249,8 +310,8 @@ class ExampleInstrumentedTest {
 
         <service
             android:name=".service.ServitorService"
-            android:foregroundServiceType="dataSync"
-            android:exported="false" />
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
     </application>
 
 </manifest>
@@ -304,6 +365,8 @@ import kotlinx.coroutines.withContext
 import java.io.InputStream
 import java.math.BigInteger
 import java.security.MessageDigest
+import android.content.pm.PackageManager
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -318,7 +381,7 @@ class MainActivity : ComponentActivity() {
             var intention by rememberSaveable { mutableStateOf("") }
             var burstCountText by rememberSaveable { mutableStateOf("888888") }
             var durationText by rememberSaveable { mutableStateOf("86400") }
-            var frequency by rememberSaveable { mutableStateOf(Frequency.Max) }
+            var frequency by rememberSaveable { mutableStateOf(Frequency.Hourly) }
             var forceDark by rememberSaveable { mutableStateOf(false) }
 
             val status by ServitorService.status.collectAsState(ServitorService.Companion.Status())
@@ -447,7 +510,21 @@ class MainActivity : ComponentActivity() {
 
                         val valid = validateInputs(burstCountText, durationText)
                         Button(
+                            // inside Button(onClick = { ... })
                             onClick = {
+                                // 1) On Android 13+ make sure we have POST_NOTIFICATIONS before starting the FGS
+                                if (!status.running && Build.VERSION.SDK_INT >= 33) {
+                                    val granted = ContextCompat.checkSelfPermission(
+                                        context, Manifest.permission.POST_NOTIFICATIONS
+                                    ) == PackageManager.PERMISSION_GRANTED
+                                    if (!granted) {
+                                        // Ask first, then return without starting
+                                        notifPermLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                                        return@Button
+                                    }
+                                }
+
+                                // 2) Start/Stop as before, but catch the FGS edge-case just in case
                                 if (!status.running) {
                                     val settings = SavedSettings(
                                         intention = intention,
@@ -463,11 +540,18 @@ class MainActivity : ComponentActivity() {
                                         durationSec = settings.durationSec
                                     )
                                     val i = ServitorService.buildIntent(context, start = true, cfg = cfg)
-                                    ContextCompat.startForegroundService(context, i)
-                                    scope.launch { saveSettings(context, settings) }
+                                    try {
+                                        ContextCompat.startForegroundService(context, i)
+                                        scope.launch { saveSettings(context, settings) }
+                                    } catch (t: Throwable) {
+                                        // optional: show a lightweight error instead of crashing
+                                        // Snackbar, Toast, etc.
+                                    }
                                 } else {
                                     val i = ServitorService.buildIntent(context, start = false)
-                                    ContextCompat.startForegroundService(context, i)
+                                    try {
+                                        ContextCompat.startForegroundService(context, i)
+                                    } catch (_: Throwable) { }
                                 }
                             },
                             enabled = valid,
@@ -599,7 +683,7 @@ enum class Frequency { Max, Hz3, Hz8, Hourly }
 data class SavedSettings(
     val intention: String = "",
     val burstCount: Int = 888_888,
-    val frequency: Frequency = Frequency.Max,
+    val frequency: Frequency = Frequency.Hourly,
     val durationSec: Int = 86_400,
     val forceDark: Boolean = false
 )
@@ -608,7 +692,7 @@ fun readSettings(context: Context) = context.dataStore.data.map { p ->
     SavedSettings(
         intention = p[Keys.INTENTION] ?: "",
         burstCount = p[Keys.BURST_COUNT] ?: 888_888,
-        frequency = runCatching { Frequency.valueOf(p[Keys.FREQ] ?: "Max") }.getOrDefault(Frequency.Max),
+        frequency = runCatching { Frequency.valueOf(p[Keys.FREQ] ?: "Hourly") }.getOrDefault(Frequency.Max),
         durationSec = p[Keys.DURATION_SEC] ?: 86_400,
         forceDark = p[Keys.FORCE_DARK] ?: false
     )
